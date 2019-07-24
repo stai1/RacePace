@@ -86,5 +86,5 @@ Rails.application.configure do
     config.logger    = ActiveSupport::TaggedLogging.new(logger)
   end
   
-  config.redirect_uri = "http://localhost:3000"
+  config.redirect_uri = "https://race-pace.herokuapp.com/"
 end
