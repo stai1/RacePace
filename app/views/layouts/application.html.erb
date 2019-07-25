@@ -8,7 +8,9 @@
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
     <% if defined? @access_token %>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script>var access_token = "<%= @access_token %>";</script>
+    <script src="/ActivityLoader.js"></script>
     <% end %>
   </head>
   <h1>RacePace</h1>
