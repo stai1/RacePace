@@ -1,6 +1,9 @@
+.tableName {
+  white-space: nowrap;
+}
+
 .tableFixHead {
   overflow-y: auto;
-  height: 100%;
   padding: 0px;
   flex-grow: 1;
   overflow-x: hidden;
