@@ -15,14 +15,45 @@ function getPace(speed, unit) {
   return unit/speed;
 }
 
+/**
+ * Converts time to clock format
+ *
+ * @param {number} time - In seconds
+ * @param {number} place - clock format sections: 2 for HH:MM:SS, 1 for MM:SS, 0 for SS
+ */
+function prettyTime(time, place) {
+  if(place == null)
+    place = 2;
+  var timeString = "";
+  var preceded = false;
+  if(place >= 2) {
+    timeString += String(Math.floor(time/3600)) + ":";
+    preceded = true;
+    time %= 3600;
+  }
+  if(place >= 1) {
+    var m = Math.floor(time/60);
+    m = preceded ? (m < 10 ? "0" : "") + String(m) : String(m);
+    timeString += m + ":";
+    preceded = true
+    time %= 60;
+  }
+  s = Math.floor(time);
+  s = preceded ? (s < 10 ? "0" : "") + String(s) : String(s);
+  hh = Math.floor((time % 1)*100);
+  hh = (hh < 10 ? "0" : "") + String(hh);
+  timeString += s + (hh == 0 ? "" : "." + hh);
+  return timeString
+}
+
 function addActivityToTableBody(tableBody, activity) {
   tableBody.append($("<tr>")
     .append($("<td>").text(activity.name))
     .append($("<td>").text(activity.start_date))
     .append($("<td>").text(WORKOUT_TYPES[activity.workout_type]))
     .append($("<td>").text(activity.distance))
-    .append($("<td>").text(activity.elapsed_time))
-    .append($("<td>").text(getPace(activity.distance/activity.elapsed_time,CONVERSIONS.mi)))
+    .append($("<td>").text(prettyTime(activity.elapsed_time,2)))
+    .append($("<td>").text(prettyTime(getPace(activity.distance/activity.elapsed_time,CONVERSIONS.mi),1)))
   )
 }
 
