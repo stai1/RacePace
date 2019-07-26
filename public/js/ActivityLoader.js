@@ -8,6 +8,17 @@ var activities = [];
 function getPace(speed, unit) {
   return CONVERSIONS[unit]/speed;
 }
+
+function addActivityToTableBody(tableBody, activity) {
+  tableBody.append($("<tr>")
+    .append($("<td>").text(activity.name))
+    .append($("<td>").text(activity.start_date))
+    .append($("<td>").text(WORKOUT_TYPES[activity.workout_type]))
+    .append($("<td>").text(activity.distance))
+    .append($("<td>").text(activity.elapsed_time))
+    .append($("<td>").text(getPace(activity.distance/activity.elapsed_time,"mi")))
+  )
+}
 function getActivities() {
   var page = 1
   function getMoreActivities() {
@@ -20,17 +31,9 @@ function getActivities() {
           activities.push(...result);
           for(let i = 0; i < result.length; ++i) {
             if(result[i].type == "Run" && !result[i].manual) {
-              $("#activityList").find("tbody").append($("<tr>")
-                .append($("<td>").text(result[i]["name"]))
-                .append($("<td>").text(result[i]["start_date"]))
-                .append($("<td>").text(WORKOUT_TYPES[result[i]["workout_type"]]))
-                .append($("<td>").text(result[i]["distance"]))
-                .append($("<td>").text(result[i]["elapsed_time"]))
-                .append($("<td>").text(getPace(result[i]["distance"]/result[i]["elapsed_time"],"mi")))
-              )
+              addActivityToTableBody($("#activityList").find("tbody"), result[i]);
             }
           }
-          //result.forEach(item => $("#activityList").append($("<li></li>").text(JSON.stringify(item))));
           getMoreActivities();
         }
       },
