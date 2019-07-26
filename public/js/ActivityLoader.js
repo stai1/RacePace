@@ -55,14 +55,25 @@ function prettyTime(time, place) {
 }
 
 function addActivityToTableBody(tableBody, activity) {
-  tableBody.append($("<tr>")
-    .append($("<td>").text(activity.name))
-    .append($("<td>").text(activity.start_date))
-    .append($("<td>").text(WORKOUT_TYPES[activity.workout_type]))
-    .append($("<td>").text((activity.distance/CONVERSIONS[unit]).toFixed(2)))
-    .append($("<td>").text(prettyTime(activity.elapsed_time,2)))
-    .append($("<td>").text(prettyTime(getPace(activity.distance/activity.elapsed_time,CONVERSIONS[unit]),1)))
-  )
+  var tr = $("<tr/>");
+  var data = {
+    id: activity.id,
+    name: activity.name,
+    type: activity.workout_type,
+    date: activity.start_date,
+    d: activity.distance,
+    t: activity.elapsed_time,
+    pace: activity.distance/activity.elapsed_time
+  };
+  tr.data("data", data);
+  tr
+    .append($("<td>").append($("<a>").attr("href", "https://www.strava.com/activities/"+data.id).attr("target","_blank").text(data.name)))
+    .append($("<td>").text(data.date))
+    .append($("<td>").text(WORKOUT_TYPES[data.type]))
+    .append($("<td>").text((data.d/CONVERSIONS[unit]).toFixed(2)).data("data",data.d))
+    .append($("<td>").text(prettyTime(data.t,2)).data("data",data.t))
+    .append($("<td>").text(prettyTime(getPace(data.pace,CONVERSIONS[unit]),1)).data("data",data.pace));
+  tableBody.append(tr);
 }
 
 /**
