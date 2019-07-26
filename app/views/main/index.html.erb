@@ -1,6 +1,19 @@
 <h2>Index</h2>
 <% content_for :javascript do %>
   <script>var access_token = "<%= @access_token %>";</script>
-  <%= javascript_include_tag '/js/ActivityLoader.js' %>
+  <%= javascript_include_tag "/js/ActivityLoader.js" %>
 <% end %>
-<ul id=activityList></ul>
+<table id=activityList>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Time</th>
+      <th>Type</th>
+      <th>Distance></th>
+      <th>Duration</th>
+      <th>Pace</th>
+    </tr>
+  </thead>
+  <tbody>
+  </tbody>
+</table>
