@@ -1,5 +1,5 @@
 const PER_PAGE = 200;
-const WORKOUT_TYPES = {0: "Run", 1: "Race", 2: "Long Run", 3: "Workout"};
+const WORKOUT_TYPES = {null: "Run", 0: "Run", 1: "Race", 2: "Long Run", 3: "Workout"};
 const CONVERSIONS = {"m":1, "km": 1000, "mi":1609.344};
 var url = "https://www.strava.com/api/v3/athlete/activities";
 
@@ -19,7 +19,7 @@ function getActivities() {
         if(textstatus == "success" && result.length != 0) {
           activities.push(...result);
           for(let i = 0; i < result.length; ++i) {
-            if(!result[i].manual) {
+            if(result[i].type == "Run" && !result[i].manual) {
               $("#activityList").find("tbody").append($("<tr>")
                 .append($("<td>").text(result[i]["name"]))
                 .append($("<td>").text(result[i]["start_date"]))
