@@ -4,6 +4,10 @@ const CONVERSIONS = {m:1, km: 1000, mi:1609.344};
 
 var unit;
 $(()=>{setUnit("mi")});
+$(function () {
+  $("a").click(()=>false);
+}
+);
 var url = "https://www.strava.com/api/v3/athlete/activities";
 
 var activities = [];
@@ -55,7 +59,7 @@ function prettyTime(time, place) {
 }
 
 function addActivityToTableBody(tableBody, activity) {
-  var tr = $("<tr/>");
+  var $tr = $("<tr/>");
   var data = {
     id: activity.id,
     name: activity.name,
@@ -65,15 +69,24 @@ function addActivityToTableBody(tableBody, activity) {
     t: activity.elapsed_time,
     pace: activity.distance/activity.elapsed_time
   };
-  tr.data("data", data);
-  tr
-    .append($("<td>").append($("<a>").attr("href", "https://www.strava.com/activities/"+data.id).attr("target","_blank").text(data.name)))
+  $tr.data("data", data);
+  $tr.click(function () {
+    if($tr.parent().parent().attr("id") == "activityList") {
+      $("#calculateList").find("tbody").append($tr);
+    }
+    else if($tr.parent().parent().attr("id") == "calculateList") {
+      $("#activityList").find("tbody").append($tr);
+    }
+  }
+  );
+  $tr
+    .append($("<td>").append($("<a>").attr("href", "https://www.strava.com/activities/"+data.id).attr("target","_blank").text(data.name).click((e)=>e.stopPropagation())))
     .append($("<td>").text(data.date))
     .append($("<td>").text(WORKOUT_TYPES[data.type]))
     .append($("<td>").text((data.d/CONVERSIONS[unit]).toFixed(2)).data("data",data.d))
     .append($("<td>").text(prettyTime(data.t,2)).data("data",data.t))
     .append($("<td>").text(prettyTime(getPace(data.pace,CONVERSIONS[unit]),1)).data("data",data.pace));
-  tableBody.append(tr);
+  tableBody.append($tr);
 }
 
 /**
