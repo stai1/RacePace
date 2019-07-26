@@ -2,7 +2,8 @@ const PER_PAGE = 200;
 const WORKOUT_TYPES = {null: "Run", 0: "Run", 1: "Race", 2: "Long Run", 3: "Workout"};
 const CONVERSIONS = {m:1, km: 1000, mi:1609.344};
 
-var unit = "mi";
+var unit;
+$().ready(()=>{setUnit("mi")});
 var url = "https://www.strava.com/api/v3/athlete/activities";
 
 var activities = [];
@@ -15,6 +16,11 @@ var activities = [];
  */
 function getPace(speed, unit) {
   return unit/speed;
+}
+
+function setUnit(newUnit) {
+  unit = newUnit;
+  $(".unit").text(newUnit);
 }
 
 /**
