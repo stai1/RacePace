@@ -4,13 +4,7 @@ const CONVERSIONS = {m:1, km: 1000, mi:1609.344};
 
 var unit;
 $(()=>{setUnit("mi")});
-$(function () {
-  $("a").click(()=>false);
-}
-);
 var url = "https://www.strava.com/api/v3/athlete/activities";
-
-var activities = [];
 
 /**
  * Returns the time in seconds per unit for a given speed
@@ -22,6 +16,10 @@ function getPace(speed, unit) {
   return unit/speed;
 }
 
+/**
+ * Sets unit used for display and distance and pace calculations
+ * @param {String} newUnit - mi or km
+ */
 function setUnit(newUnit) {
   unit = newUnit;
   $(".unit").text(newUnit);
@@ -58,7 +56,25 @@ function prettyTime(time, place) {
   return timeString;
 }
 
-function addActivityToTableBody(tableBody, activity) {
+/**
+ * Moves table row from current table to other table
+ * @param {object} $tr - jQuery object for table row
+ */
+function moveToOtherTable($tr) {
+  if($tr.parent().parent().attr("id") == "activityList") {
+    $("#calculateList").find("tbody").append($tr);
+  }
+  else if($tr.parent().parent().attr("id") == "calculateList") {
+    $("#activityList").find("tbody").append($tr);
+  }
+}
+
+/**
+ * Add Strava activity to a table.
+ * @param {object} $tableBody - jQuery object for tbody
+ * @param {object} activity - Activity from Strava
+ */
+function addActivityToTableBody($tableBody, activity) {
   var $tr = $("<tr/>");
   var data = {
     id: activity.id,
@@ -70,15 +86,8 @@ function addActivityToTableBody(tableBody, activity) {
     pace: activity.distance/activity.elapsed_time
   };
   $tr.data("data", data);
-  $tr.click(function () {
-    if($tr.parent().parent().attr("id") == "activityList") {
-      $("#calculateList").find("tbody").append($tr);
-    }
-    else if($tr.parent().parent().attr("id") == "calculateList") {
-      $("#activityList").find("tbody").append($tr);
-    }
-  }
-  );
+  $tr.click(() => moveToOtherTable($tr));
+  
   $tr
     .append($("<td>").append($("<a>").attr("href", "https://www.strava.com/activities/"+data.id).attr("target","_blank").text(data.name).click((e)=>e.stopPropagation())))
     .append($("<td>").text(data.date))
@@ -86,7 +95,7 @@ function addActivityToTableBody(tableBody, activity) {
     .append($("<td>").text((data.d/CONVERSIONS[unit]).toFixed(2)).data("data",data.d))
     .append($("<td>").text(prettyTime(data.t,2)).data("data",data.t))
     .append($("<td>").text(prettyTime(getPace(data.pace,CONVERSIONS[unit]),1)).data("data",data.pace));
-  tableBody.append($tr);
+  $tableBody.append($tr);
 }
 
 /**
@@ -101,7 +110,6 @@ function getActivities() {
       success: function(result, textstatus){
         page += 1;
         if(textstatus == "success" && result.length != 0) {
-          activities.push(...result);
           for(let i = 0; i < result.length; ++i) {
             if(result[i].type == "Run" && !result[i].manual) {
               addActivityToTableBody($("#activityList").find("tbody"), result[i]);
