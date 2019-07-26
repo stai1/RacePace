@@ -9,8 +9,14 @@
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
     <%= yield :javascript %>
   </head>
-  <h1>RacePace</h1>
   <body>
-    <%= yield %>
+    <div id="container">
+      <div id="top_content">
+        <h1>RacePace</h1>
+      </div>
+      <div id="bottom_content">
+        <%= yield %>
+      </div>
+    </div>
   </body>
 </html>

@@ -1,0 +1,34 @@
+.tableFixHead {
+  overflow-y: auto;
+  height: 100%;
+  padding: 0px;
+  flex-grow: 1;
+  overflow-x: hidden;
+  outline: 1px solid #d0d0d0;
+}
+.tableFixHead thead th {
+  position: sticky;
+  top: 0;
+  text-align: left
+}
+
+/* Just common table stuff. Really. */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  height:100%
+}
+
+
+th, td {
+  border: 1px solid #d0d0d0;
+  border-right: none;
+  border-top: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: clip;
+  max-width: 0px;
+}
+th {
+  background:#eee;
+}

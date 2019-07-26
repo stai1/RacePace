@@ -1,0 +1,10 @@
+.row {
+  display: flex;
+  height: 100%;
+}
+
+.column {
+  display: flex;
+  height: 100%;
+  width: 50%
+}

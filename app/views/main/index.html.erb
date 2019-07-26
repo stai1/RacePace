@@ -1,19 +1,45 @@
-<h2>Index</h2>
+<div>
+  <h2>Index</h2>
+</div>
 <% content_for :javascript do %>
   <script>var access_token = "<%= @access_token %>";</script>
   <%= javascript_include_tag "/js/ActivityLoader.js" %>
 <% end %>
-<table id=activityList>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Date</th>
-      <th>Type</th>
-      <th>Distance</th>
-      <th>Time</th>
-      <th>Pace</th>
-    </tr>
-  </thead>
-  <tbody>
-  </tbody>
-</table>
+<div class="row">
+  <div class="column">
+    <div class="tableFixHead">
+      <table id="activityList">
+        <thead>
+          <tr>
+            <th style="width: 20%">Name</th>
+            <th style="width: 20%">Date</th>
+            <th style="width: 10%">Type</th>
+            <th style="width: 10%">Distance</th>
+            <th style="width: 20%">Time</th>
+            <th style="width: 20%">Pace</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="column">
+    <div class="tableFixHead">
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 20%">Name</th>
+            <th style="width: 20%">Date</th>
+            <th style="width: 10%">Type</th>
+            <th style="width: 10%">Distance</th>
+            <th style="width: 20%">Time</th>
+            <th style="width: 20%">Pace</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
