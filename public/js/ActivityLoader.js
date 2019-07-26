@@ -1,6 +1,8 @@
 const PER_PAGE = 200;
 const WORKOUT_TYPES = {null: "Run", 0: "Run", 1: "Race", 2: "Long Run", 3: "Workout"};
 const CONVERSIONS = {m:1, km: 1000, mi:1609.344};
+
+var unit = "mi";
 var url = "https://www.strava.com/api/v3/athlete/activities";
 
 var activities = [];
@@ -43,7 +45,7 @@ function prettyTime(time, place) {
   hh = Math.floor((time % 1)*100);
   hh = (hh < 10 ? "0" : "") + String(hh);
   timeString += s + (hh == 0 ? "" : "." + hh);
-  return timeString
+  return timeString;
 }
 
 function addActivityToTableBody(tableBody, activity) {
@@ -51,9 +53,9 @@ function addActivityToTableBody(tableBody, activity) {
     .append($("<td>").text(activity.name))
     .append($("<td>").text(activity.start_date))
     .append($("<td>").text(WORKOUT_TYPES[activity.workout_type]))
-    .append($("<td>").text(activity.distance))
+    .append($("<td>").text((activity.distance/CONVERSIONS[unit]).toFixed(2)))
     .append($("<td>").text(prettyTime(activity.elapsed_time,2)))
-    .append($("<td>").text(prettyTime(getPace(activity.distance/activity.elapsed_time,CONVERSIONS.mi),1)))
+    .append($("<td>").text(prettyTime(getPace(activity.distance/activity.elapsed_time,CONVERSIONS[unit]),1)))
   )
 }
 
