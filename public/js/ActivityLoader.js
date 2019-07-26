@@ -3,7 +3,7 @@ const WORKOUT_TYPES = {null: "Run", 0: "Run", 1: "Race", 2: "Long Run", 3: "Work
 const CONVERSIONS = {m:1, km: 1000, mi:1609.344};
 
 var unit;
-$().ready(()=>{setUnit("mi")});
+$(()=>{setUnit("mi")});
 var url = "https://www.strava.com/api/v3/athlete/activities";
 
 var activities = [];
