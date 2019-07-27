@@ -22,10 +22,10 @@ var url = "https://www.strava.com/api/v3/athlete/activities";
  * Returns the time in seconds per unit for a given speed
  *
  * @param {number} speed - In m/s
- * @param {number} unit - As converted to meters
+ * @param {String} unit - mi or km
  */
 function getPace(speed, unit) {
-  return unit/speed;
+  return CONVERSIONS[unit]/speed;
 }
 
 /**
@@ -35,6 +35,23 @@ function getPace(speed, unit) {
 function setUnit(newUnit) {
   unit = newUnit;
   $(".unit").text(newUnit);
+  $distance = $(".distance");
+  for(let i = 0; i < $distance.length; ++i) {
+    $($distance[i]).text(prettyDistance($($distance[i]).data().data, unit));
+  }
+  $pace = $(".pace");
+  for(let i = 0; i < $pace.length; ++i) {
+    $($pace[i]).text(prettyTime(getPace($($pace[i]).data().data, unit),1));
+  }
+}
+
+/**
+ * Converts distance in meters to hundredths precision in other unit
+ * @param {number} distance - in meters
+ * @param {unit} - mi or km
+ */
+function prettyDistance(distance, unit) {
+  return (distance/CONVERSIONS[unit]).toFixed(2);
 }
 
 /**
@@ -135,9 +152,9 @@ function addActivityToTableBody($tableBody, activity) {
     .append($("<td>").append($("<a>").attr("href", "https://www.strava.com/activities/"+data.id).attr("target","_blank").text(data.name).click((e)=>e.stopPropagation())))
     .append($("<td>").text(data.date))
     .append($("<td>").text(WORKOUT_TYPES[data.type]))
-    .append($("<td>").text((data.d/CONVERSIONS[unit]).toFixed(2)).data("data",data.d))
+    .append($("<td>").text(prettyDistance(data.d, unit)).data("data",data.d).addClass("distance"))
     .append($("<td>").text(prettyTime(data.t,2)).data("data",data.t))
-    .append($("<td>").text(prettyTime(getPace(data.pace,CONVERSIONS[unit]),1)).data("data",data.pace));
+    .append($("<td>").text(prettyTime(getPace(data.pace,unit),1)).data("data",data.pace).addClass("pace"));
   $tableBody.append($tr);
 }
 
