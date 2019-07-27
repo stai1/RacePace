@@ -8,6 +8,11 @@
   flex-grow: 1;
   overflow-x: hidden;
   outline: 1px solid #d0d0d0;
+  user-select: none; /* supported by Chrome and Opera */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
 }
 .tableFixHead thead th {
   position: sticky;

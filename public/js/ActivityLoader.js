@@ -3,7 +3,19 @@ const WORKOUT_TYPES = {null: "Run", 0: "Run", 1: "Race", 2: "Long Run", 3: "Work
 const CONVERSIONS = {m:1, km: 1000, mi:1609.344};
 
 var unit;
-$(()=>{setUnit("mi")});
+$(function () {
+  setUnit("mi");
+  
+  // initialize button behaviors
+  //$("#activity-select").click();
+  //$("#activity-deselect").click();
+  $("#activity-move").click(()=>moveMultipleFromTable("activityList"));
+  $("#calculate-move").click(()=>moveMultipleFromTable("calculateList"));
+  //$("#calculate-select").click();
+  //$("#calculate-deselect").click();
+  }
+);
+
 var url = "https://www.strava.com/api/v3/athlete/activities";
 
 /**
@@ -69,8 +81,11 @@ function moveToOtherTable($tr) {
   }
 }
 
-function selectRow($tr) {
-  $tr.addClass("selected");
+function clickRow($tr) {
+  if(($tr).hasClass("selected"))
+    $tr.removeClass("selected");
+  else
+    $tr.addClass("selected");
 }
 
 /**
@@ -103,7 +118,8 @@ function addActivityToTableBody($tableBody, activity) {
     pace: activity.distance/activity.elapsed_time
   };
   $tr.data("data", data);
-  $tr.click(() => selectRow($tr));
+  // select/deselect row on click
+  $tr.click(() => clickRow($tr));
   
   $tr
     .append($("<td>").append($("<a>").attr("href", "https://www.strava.com/activities/"+data.id).attr("target","_blank").text(data.name).click((e)=>e.stopPropagation())))
@@ -142,5 +158,12 @@ function getActivities() {
   
   getMoreActivities();
 }
+
+//$("#activity-select").click();
+//$("#activity-deselect").click();
+$("#activity-move").click(()=>moveMultipleFromTable("activityList"));
+$("#calculate-move").click(()=>moveMultipleFromTable("calculateList"));
+//$("#calculate-select").click();
+//$("#calculate-deselect").click();
 
 getActivities();
