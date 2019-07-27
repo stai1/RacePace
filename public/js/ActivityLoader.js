@@ -126,9 +126,11 @@ function addActivityToTableBody($tableBody, activity) {
     pace: activity.distance/activity.elapsed_time
   };
   $tr.data("data", data);
+  $tr.attr("id", activity.id);
   // select/deselect row on click
   $tr.click(() => clickRow($tr));
   
+  // set row entries
   $tr
     .append($("<td>").append($("<a>").attr("href", "https://www.strava.com/activities/"+data.id).attr("target","_blank").text(data.name).click((e)=>e.stopPropagation())))
     .append($("<td>").text(data.date))
