@@ -85,19 +85,6 @@ function prettyTime(time, place) {
   return timeString;
 }
 
-/**
- * Moves table row from current table to other table
- * @param {object} $tr - jQuery object for table row
- */
-function moveToOtherTable($tr) {
-  if($tr.parent().parent().attr("id") == "activityList") {
-    $("#calculateList").find("tbody").append($tr);
-  }
-  else if($tr.parent().parent().attr("id") == "calculateList") {
-    $("#activityList").find("tbody").append($tr);
-  }
-}
-
 function selectAll(tableID) {
   $("#"+tableID).find("tbody").find("tr").addClass("selected");
 }
