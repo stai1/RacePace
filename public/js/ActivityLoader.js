@@ -69,16 +69,20 @@ function moveToOtherTable($tr) {
   }
 }
 
+function selectRow($tr) {
+  $tr.addClass("selected");
+}
+
 /**
  * Move all class="selected" table rows to other table
  * @param {String} tableID - id of table to move from
  */
 function moveMultipleFromTable(tableID) {
   if(tableID == "activityList") {
-    $("#calculateList").find("tbody").append($("#activityList").find("tbody").find(".selected"));
+    $("#calculateList").find("tbody").append($("#activityList").find("tbody").find(".selected").removeClass("selected"));
   }
   else if(tableID == "calculateList") {
-    $("#activityList").find("tbody").append($("#calculateList").find("tbody").find(".selected"));
+    $("#activityList").find("tbody").append($("#calculateList").find("tbody").find(".selected").removeClass("selected"));
   }
 }
 
@@ -99,7 +103,7 @@ function addActivityToTableBody($tableBody, activity) {
     pace: activity.distance/activity.elapsed_time
   };
   $tr.data("data", data);
-  $tr.click(() => moveToOtherTable($tr));
+  $tr.click(() => selectRow($tr));
   
   $tr
     .append($("<td>").append($("<a>").attr("href", "https://www.strava.com/activities/"+data.id).attr("target","_blank").text(data.name).click((e)=>e.stopPropagation())))

@@ -15,6 +15,10 @@
   text-align: left;
 }
 
+.selected {
+  background: #c0e0ff;
+}
+
 /* Just common table stuff. Really. */
 table {
   font: 12px courier;
