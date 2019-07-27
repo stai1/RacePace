@@ -159,10 +159,13 @@ function getActivities() {
         if(textstatus == "success" && result.length != 0) {
           for(let i = 0; i < result.length; ++i) {
             if(result[i].type == "Run" && !result[i].manual) {
-              let $table = result[i].workout_type == 1 ? $("#calculateList") : $("#activityList");
-              addActivityToTableBody($table.find("tbody"), result[i]);
+              addActivityToTableBody($("#activityList").find("tbody"), result[i]);
+              //let $table = result[i].workout_type == 1 ? $("#calculateList") : $("#activityList");
+              //addActivityToTableBody($table.find("tbody"), result[i]);
             }
           }
+          $('#activityList tr:contains("Race")').addClass("selected");
+          moveMultipleFromTable("activityList");
           getMoreActivities();
         }
       },
