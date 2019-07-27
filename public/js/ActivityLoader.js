@@ -70,6 +70,19 @@ function moveToOtherTable($tr) {
 }
 
 /**
+ * Move all class="selected" table rows to other table
+ * @param {String} tableID - id of table to move from
+ */
+function moveMultipleFromTable(tableID) {
+  if(tableID == "activityList") {
+    $("#calculateList").find("tbody").append($("#activityList").find("tbody").find(".selected"));
+  }
+  else if(tableID == "calculateList") {
+    $("#activityList").find("tbody").append($("#calculateList").find("tbody").find(".selected"));
+  }
+}
+
+/**
  * Add Strava activity to a table.
  * @param {object} $tableBody - jQuery object for tbody
  * @param {object} activity - Activity from Strava
