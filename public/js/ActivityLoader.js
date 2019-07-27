@@ -7,12 +7,12 @@ $(function () {
   setUnit("mi");
   
   // initialize button behaviors
-  //$("#activity-select").click();
-  //$("#activity-deselect").click();
+  $("#activity-select").click(()=>selectAll("activityList"));
+  $("#activity-deselect").click(()=>deselectAll("activityList"));
   $("#activity-move").click(()=>moveMultipleFromTable("activityList"));
   $("#calculate-move").click(()=>moveMultipleFromTable("calculateList"));
-  //$("#calculate-select").click();
-  //$("#calculate-deselect").click();
+  $("#calculate-select").click(()=>selectAll("calculateList"));
+  $("#calculate-deselect").click(()=>deselectAll("calculateList"));
   }
 );
 
@@ -79,6 +79,14 @@ function moveToOtherTable($tr) {
   else if($tr.parent().parent().attr("id") == "calculateList") {
     $("#activityList").find("tbody").append($tr);
   }
+}
+
+function selectAll(tableID) {
+  $("#"+tableID).find("tbody").find("tr").addClass("selected");
+}
+
+function deselectAll(tableID) {
+  $("#"+tableID).find("tbody").find("tr").removeClass("selected");
 }
 
 function clickRow($tr) {
@@ -158,12 +166,5 @@ function getActivities() {
   
   getMoreActivities();
 }
-
-//$("#activity-select").click();
-//$("#activity-deselect").click();
-$("#activity-move").click(()=>moveMultipleFromTable("activityList"));
-$("#calculate-move").click(()=>moveMultipleFromTable("calculateList"));
-//$("#calculate-select").click();
-//$("#calculate-deselect").click();
 
 getActivities();
