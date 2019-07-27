@@ -22,6 +22,7 @@ h1 {margin: 0px;}
   height: 100vh;
 }
 #top_content {
+  position: relative;
   min-height: 100px;
   flex:0.4;
 }
@@ -29,4 +30,16 @@ h1 {margin: 0px;}
   display: flex;
   flex-flow: column;
   flex: 0.6;
+}
+
+.banner {
+  position:absolute;
+  left: 0;
+  top: 0;
+}
+.stats {
+  white-space: nowrap;
+  position:absolute;
+  right: 0;
+  bottom: 0;
 }
