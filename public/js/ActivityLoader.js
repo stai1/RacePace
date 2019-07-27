@@ -41,7 +41,7 @@ function setUnit(newUnit) {
   }
   $pace = $(".pace");
   for(let i = 0; i < $pace.length; ++i) {
-    $($pace[i]).text(prettyTime(getPace($($pace[i]).data().data, unit),1));
+    $($pace[i]).text(prettyTime($($pace[i]).data().data*CONVERSIONS[unit],1));
   }
 }
 
@@ -111,6 +111,14 @@ function moveMultipleFromTable(tableID) {
   else if(tableID == "calculateList") {
     $("#activityList").find("tbody").append($("#calculateList").find("tbody").find(".selected").removeClass("selected"));
   }
+  let $rows = $("#calculateList").find("tbody").find("tr");
+  let X = [...$rows.map((tr_i)=>$($rows[tr_i]).data().data.d)];
+  let Y = [...$rows.map((tr_i)=>$($rows[tr_i]).data().data.pace)];
+  console.log(X);
+  let coef = pwrReg(X,Y);
+  $(".a-coef").attr("title",coef.a).text(coef.a.toFixed(3));
+  $(".b-coef").attr("title",coef.b).text(coef.b.toFixed(4));
+  $(".r-coef").attr("title",coef.r*coef.r).text((coef.r*coef.r).toFixed(4));
 }
 
 /**
@@ -127,7 +135,8 @@ function addActivityToTableBody($tableBody, activity) {
     date: activity.start_date,
     d: activity.distance,
     t: activity.elapsed_time,
-    pace: activity.distance/activity.elapsed_time
+    speed: activity.distance/activity.elapsed_time,
+    pace: activity.elapsed_time/activity.distance
   };
   $tr.data("data", data);
   $tr.attr("id", activity.id);
@@ -141,7 +150,7 @@ function addActivityToTableBody($tableBody, activity) {
     .append($("<td>").text(WORKOUT_TYPES[data.type]))
     .append($("<td>").text(prettyDistance(data.d, unit)).data("data",data.d).addClass("distance"))
     .append($("<td>").text(prettyTime(data.t,2)).data("data",data.t))
-    .append($("<td>").text(prettyTime(getPace(data.pace,unit),1)).data("data",data.pace).addClass("pace"));
+    .append($("<td>").text(prettyTime(data.pace*CONVERSIONS[unit],1)).data("data",data.pace).addClass("pace"));
   $tableBody.append($tr);
 }
 
@@ -160,8 +169,6 @@ function getActivities() {
           for(let i = 0; i < result.length; ++i) {
             if(result[i].type == "Run" && !result[i].manual) {
               addActivityToTableBody($("#activityList").find("tbody"), result[i]);
-              //let $table = result[i].workout_type == 1 ? $("#calculateList") : $("#activityList");
-              //addActivityToTableBody($table.find("tbody"), result[i]);
             }
           }
           $('#activityList tr:contains("Race")').addClass("selected");
