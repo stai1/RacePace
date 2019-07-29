@@ -43,7 +43,7 @@ $(function () {
   
   $(document).mousedown(function(e) {
     if (!$(e.target).parents(".distance-menu").length > 0) {
-        $(".distance-menu").hide(100);
+        $(".distance-menu").hide();
     }
   });
   
@@ -63,7 +63,7 @@ $(function () {
     }
     $("#distance").val(d/CONVERSIONS[unit]);
     $("#distance").trigger("input");
-    $(".custom-menu").hide();
+    $(".distance-menu").hide();
   });
   setUnit("mi");
   
