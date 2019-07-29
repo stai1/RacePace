@@ -3,6 +3,7 @@ const WORKOUT_TYPES = {null: "Run", 0: "Run", 1: "Race", 2: "Long Run", 3: "Work
 const CONVERSIONS = {m:1, km: 1000, mi:1609.344};
 
 var unit;
+var coef = pwrReg([],[]);
 
 // initialize stuff
 $(function () {
@@ -36,6 +37,8 @@ $(function () {
   $("#calculate-move").click(()=>moveMultipleFromTable("calculateList"));
   $("#calculate-select").click(()=>selectAll("calculateList"));
   $("#calculate-deselect").click(()=>deselectAll("calculateList"));
+  
+  getCoef();
   }
 );
   
@@ -134,11 +137,14 @@ function moveMultipleFromTable(tableID) {
   else if(tableID == "calculateList") {
     $("#activityList").find("tbody").append($("#calculateList").find("tbody").find(".selected").removeClass("selected"));
   }
+  getCoef();
+}
+
+function getCoef() {
   let $rows = $("#calculateList").find("tbody").find("tr");
   let X = [...$rows.map((tr_i)=>$($rows[tr_i]).data().data.d)];
   let Y = [...$rows.map((tr_i)=>$($rows[tr_i]).data().data.pace)];
-  console.log(X);
-  let coef = pwrReg(X,Y);
+  coef = pwrReg(X,Y);
   $(".a-coef").attr("title",coef.a).text(coef.a.toFixed(3));
   $(".b-coef").attr("title",coef.b).text(coef.b.toFixed(4));
   $(".r-coef").attr("title",coef.r*coef.r).text((coef.r*coef.r).toFixed(4));

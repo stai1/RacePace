@@ -10,6 +10,11 @@ function sum(arr) {
  
 function linReg(X, Y) {
   let n = X.length; // !!! Assume x.length == y.length !!!
+  if(n==0)
+    return {a:NaN, b:NaN, r:NaN};
+  if(n==1) {
+    return {a:Y[0]-0.06*X[0], b:0.06, r:NaN}
+  }
   let mean_x = sum(X)/n;
   let mean_y = sum(Y)/n;
   let mean_xy = sum([...Array(n).keys()].map((i)=>X[i]*Y[i]))/n;
