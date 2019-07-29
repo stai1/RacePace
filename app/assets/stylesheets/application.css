@@ -14,7 +14,7 @@
  *= require_self
  */
  
-body {margin: 0px;}
+body {margin: 0px; overflow:hidden}
 h1 {margin: 0px;}
 #container {
   display: flex;

@@ -27,7 +27,44 @@ $(function () {
   $("#distance").inputFilter(function(value) {
     return /^\d*\.?\d*$/.test(value);
   });
+
+  // display new pace on input change
+  $("#distance").on("input", displayCalculatedPace);
   
+  // right click on distance input for options
+  $("#distance").contextmenu(function(e) {
+    e.preventDefault();
+    $(".distance-menu").finish().toggle().
+    css({ // In the right position (the mouse)
+        top: event.pageY + "px",
+        left: event.pageX - $(".distance-menu").width() + "px"
+    });
+  });
+  
+  $(document).mousedown(function(e) {
+    if (!$(e.target).parents(".distance-menu").length > 0) {
+        $(".distance-menu").hide(100);
+    }
+  });
+  
+  $(".distance-menu li").click(function(){
+    let d = null;
+    switch($(this).attr("data-action")) {
+        case "1km": d = 1000; break;
+        case "1mi": d = CONVERSIONS["mi"]; break;
+        case "3km": d = 3000; break;
+        case "2mi": d = 2*CONVERSIONS["mi"]; break;
+        case "5km": d = 5000; break;
+        case "8km": d = 8000; break;
+        case "10km": d = 10000; break;
+        case "10mi": d = 10* CONVERSIONS["mi"]; break;
+        case "Half": d = 21097.5; break;
+        case "Marathon": d = 42195; break;
+    }
+    $("#distance").val(d/CONVERSIONS[unit]);
+    $("#distance").trigger("input");
+    $(".custom-menu").hide();
+  });
   setUnit("mi");
   
   // initialize button behaviors
@@ -37,7 +74,6 @@ $(function () {
   $("#calculate-move").click(()=>moveMultipleFromTable("calculateList"));
   $("#calculate-select").click(()=>selectAll("calculateList"));
   $("#calculate-deselect").click(()=>deselectAll("calculateList"));
-  $("#distance").on("input", displayCalculatedPace);
   
   getCoef();
   }
@@ -60,15 +96,17 @@ function getPace(speed, unit) {
  * @param {String} newUnit - mi or km
  */
 function setUnit(newUnit) {
+  if($("#distance").val() != "")
+    $("#distance").val(parseFloat($("#distance").val())*CONVERSIONS[unit]/CONVERSIONS[newUnit]);
   unit = newUnit;
   $(".unit").text(newUnit);
   $distance = $(".distance");
   for(let i = 0; i < $distance.length; ++i) {
-    $($distance[i]).text(prettyDistance($($distance[i]).data().data, unit));
+    $($distance[i]).text(prettyDistance($($distance[i]).data().data, newUnit));
   }
   $pace = $(".pace");
   for(let i = 0; i < $pace.length; ++i) {
-    $($pace[i]).text(prettyTime($($pace[i]).data().data*CONVERSIONS[unit],1));
+    $($pace[i]).text(prettyTime($($pace[i]).data().data*CONVERSIONS[newUnit],1));
   }
   displayCalculatedPace();
 }

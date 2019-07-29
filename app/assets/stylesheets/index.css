@@ -9,3 +9,16 @@
   height: 100%;
   width: 50%;
 }
+
+.distance-menu {
+  display: none;
+  z-index: 1000;
+  position: absolute;
+  overflow: hidden;
+  text-overflow: clip;
+  border: 1px solid black;
+  background: #FFFFFF;
+  white-space: nowrap;
+  font-family: sans-serif;
+  padding: 0;
+}
