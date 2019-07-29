@@ -1,10 +1,16 @@
-<div>
-  placeholder
-</div>
 <% content_for :javascript do %>
   <script>var access_token = "<%= @access_token %>";</script>
   <%= javascript_include_tag "/js/ActivityLoader.js" %>
 <% end %>
+<div>
+  <div style="text-align: right">
+    Target distance (<span class="unit"></span>):
+    <input id="distance">
+  </div>
+  <div style="text-align: right">
+    Target pace: <span id="calculatedPace"></span> Target time: <span id="calculatedTime"></span>
+  </div>
+</div>
 <div class="row">
   <div class="column">
     <div class="tableName">

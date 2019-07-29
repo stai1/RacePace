@@ -3,7 +3,30 @@ const WORKOUT_TYPES = {null: "Run", 0: "Run", 1: "Race", 2: "Long Run", 3: "Work
 const CONVERSIONS = {m:1, km: 1000, mi:1609.344};
 
 var unit;
+
+// initialize stuff
 $(function () {
+  // inputFilter
+  (function($) {
+    $.fn.inputFilter = function(inputFilter) {
+      return this.on("input keydown keyup mousedown mouseup select contextmenu drop", function() {
+        if (inputFilter(this.value)) {
+          this.oldValue = this.value;
+          this.oldSelectionStart = this.selectionStart;
+          this.oldSelectionEnd = this.selectionEnd;
+        } else if (this.hasOwnProperty("oldValue")) {
+          this.value = this.oldValue;
+          this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+        }
+      });
+    };
+  }($));
+
+  // set distance textbox to accept floating point number formats only
+  $("#distance").inputFilter(function(value) {
+    return /^\d*\.?\d*$/.test(value);
+  });
+  
   setUnit("mi");
   
   // initialize button behaviors
@@ -15,7 +38,7 @@ $(function () {
   $("#calculate-deselect").click(()=>deselectAll("calculateList"));
   }
 );
-
+  
 var url = "https://www.strava.com/api/v3/athlete/activities";
 
 /**
