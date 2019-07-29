@@ -37,6 +37,7 @@ $(function () {
   $("#calculate-move").click(()=>moveMultipleFromTable("calculateList"));
   $("#calculate-select").click(()=>selectAll("calculateList"));
   $("#calculate-deselect").click(()=>deselectAll("calculateList"));
+  $("#distance").on("input", displayCalculatedPace);
   
   getCoef();
   }
@@ -69,8 +70,15 @@ function setUnit(newUnit) {
   for(let i = 0; i < $pace.length; ++i) {
     $($pace[i]).text(prettyTime($($pace[i]).data().data*CONVERSIONS[unit],1));
   }
+  displayCalculatedPace();
 }
 
+function displayCalculatedPace() {
+  let d = parseFloat($("#distance").val());
+  let pace = pwr(d*CONVERSIONS[unit], coef.a, coef.b);
+  $("#calculatedPace").text(prettyTime(pace*CONVERSIONS[unit],2));
+  $("#calculatedTime").text(prettyTime(pace*d*CONVERSIONS[unit],2));
+}
 /**
  * Converts distance in meters to hundredths precision in other unit
  * @param {number} distance - in meters
@@ -138,6 +146,7 @@ function moveMultipleFromTable(tableID) {
     $("#activityList").find("tbody").append($("#calculateList").find("tbody").find(".selected").removeClass("selected"));
   }
   getCoef();
+  displayCalculatedPace();
 }
 
 function getCoef() {
