@@ -65,7 +65,10 @@ $(function () {
     $("#distance").trigger("input");
     $(".distance-menu").hide();
   });
-  setUnit("mi");
+
+  // Unit selection menu and unit initialization to first menu item
+  $("#selectDistance").change(()=>setUnit($("#selectDistance").val()));
+  $("#selectDistance").change();
   
   // initialize button behaviors
   $("#activity-select").click(()=>selectAll("activityList"));
