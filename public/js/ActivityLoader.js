@@ -135,6 +135,8 @@ function prettyDistance(distance, unit) {
  * @param {number} place - clock format sections: 2 for HH:MM:SS, 1 for MM:SS, 0 for SS
  */
 function prettyTime(time, place) {
+  if(isNaN(time))
+    return "..."
   if(place == null)
     place = 2;
   var timeString = "";
