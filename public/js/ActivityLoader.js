@@ -2,6 +2,7 @@ const PER_PAGE = 200;
 const WORKOUT_TYPES = {null: "Run", 0: "Run", 1: "Race", 2: "Long Run", 3: "Workout"};
 const CONVERSIONS = {m:1, km: 1000, mi:1609.344};
 
+var url = "https://www.strava.com/api/v3/athlete/activities";
 var unit;
 var coef = pwrReg([],[]);
 
@@ -81,8 +82,6 @@ $(function () {
   getCoef();
   }
 );
-  
-var url = "https://www.strava.com/api/v3/athlete/activities";
 
 /**
  * Returns the time in seconds per unit for a given speed
@@ -241,7 +240,7 @@ function getActivities() {
   function getMoreActivities() {
     $.get({
       url:url,
-      data:{access_token: access_token,page: page,per_page: PER_PAGE},
+      data:{access_token: access_token, type: "Run", page: page,per_page: PER_PAGE},
       success: function(result, textstatus){
         page += 1;
         if(textstatus == "success" && result.length != 0) {
