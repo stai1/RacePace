@@ -7,6 +7,8 @@ $(function() {
     let rows = [...$rows];
     
     let reverse = false
+    
+    $target.parent().find("th").not($target).removeClass("asc dsc");
     if(!$target.hasClass("asc")) {
       $target.removeClass("dsc");
       $target.addClass("asc");

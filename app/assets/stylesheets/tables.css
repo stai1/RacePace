@@ -44,3 +44,16 @@ th, td {
 th {
   background:#eee;
 }
+
+.sortDisplay {
+  display: none;
+}
+
+.dsc .sortDisplay {
+  display: inline-block;
+  transform: scale(1, -1);
+}
+
+.asc .sortDisplay {
+  display: inline-block;
+}
