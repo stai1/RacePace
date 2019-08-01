@@ -34,6 +34,9 @@ class Comparator {
     this.index = index;
   }
   
+  /**
+   * Compares table row DOM elements (not jQuery but uses jQuery)
+   */
   compare(a,b) {
     let a_DOM = $(a).find("td")[this.index];
     let b_DOM = $(b).find("td")[this.index];
@@ -44,18 +47,25 @@ class Comparator {
     return (a_DOM.innerHTML > b_DOM.innerHTML) - (a_DOM.innerHTML < b_DOM.innerHTML);
   }
 }
-function comparator(a,b) {
-    let $a = $(a);
-    let $b = $(b);
-    if($a.data().hasOwnProperty("data") && $b.data().hasOwnProperty("data"))
-        return ($a.data().data > $b.data().data) - ($a.data().data < $b.data().data);
-    return (a.innerHTML > b.innerHTML) - (a.innerHTML < b.innerHTML);
-}
 
+/**
+ * Wrapper for merge sort that takes start and end index
+ * @param {Array} arr - Array to sort
+ * @param {Comparator} comparator - Object with compare(a,b) method
+ * @param {boolean} reverse - Sort order
+ */
 function mergesort(arr, comparator, reverse = false) {
   mergesortWrapped(arr, 0, arr.length, comparator, reverse);
 }
 
+/**
+ * Recursive merge sort
+ * @param {Array} arr - Array to sort
+ * @param {number} start - Start index of subarray to sort
+ * @param {number} end - End index of subarray to sort
+ * @param {Comparator} comparator - Object with compare(a,b) method
+ * @param {boolean} reverse - Sort order
+ */
 function mergesortWrapped(arr, start, end, comparator, reverse = false) {
   if(end-start <= 1) return; // already sorted
   
@@ -63,7 +73,7 @@ function mergesortWrapped(arr, start, end, comparator, reverse = false) {
   mergesortWrapped(arr, start, mid, comparator, reverse);
   mergesortWrapped(arr, mid, end, comparator, reverse);
   
-  // mergeAttributes
+  // merge
   // copy only left array
   // because array write locationo will never "catch up" to right array read location
   let L = arr.slice(start, mid);
