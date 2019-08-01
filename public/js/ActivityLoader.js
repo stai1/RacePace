@@ -225,7 +225,7 @@ function addActivityToTableBody($tableBody, activity) {
   
   // set row entries
   $tr
-    .append($("<td>").append($("<a>").attr("href", "https://www.strava.com/activities/"+data.id).attr("target","_blank").text(data.name).click((e)=>e.stopPropagation())))
+    .append($("<td>").data("data",data.name).append($("<a>").attr("href", "https://www.strava.com/activities/"+data.id).attr("target","_blank").text(data.name).click((e)=>e.stopPropagation())))
     .append($("<td>").text(data.date))
     .append($("<td>").text(WORKOUT_TYPES[data.type]))
     .append($("<td>").text(prettyDistance(data.d, unit)).data("data",data.d).addClass("distance"))

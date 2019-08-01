@@ -17,7 +17,7 @@ $(function() {
       $target.addClass("dsc");
     }
     mergesort(rows, new Comparator(columnIndex), reverse);
-    $tablebody.empty();
+    $rows.detach();
     for(let i = 0; i < rows.length; ++i) {
       $tablebody.append(rows[i]);
     }
