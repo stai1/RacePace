@@ -169,11 +169,29 @@ function deselectAll(tableID) {
   $("#"+tableID).find("tbody").find("tr").removeClass("selected");
 }
 
-function clickRow($tr) {
-  if(($tr).hasClass("selected"))
-    $tr.removeClass("selected");
-  else
-    $tr.addClass("selected");
+function clickRow(event, $tr) {
+  if(!event.shiftKey || this.previousRow == undefined || this.previousRow.parent()[0] != $tr.parent()[0]) {
+    if(($tr).hasClass("selected")) {
+      $tr.removeClass("selected");
+      this.previousSelected = false;
+    }
+    else {
+      $tr.addClass("selected");
+      this.previousSelected = true;
+    }
+  }
+  else {
+    let $rows = $tr.parent().find("tr");
+    let i_previous = $rows.index(this.previousRow);
+    let i_current = $rows.index($tr);
+    let i_min = Math.min(i_previous, i_current);
+    let i_max = Math.max(i_previous, i_current);
+    if(this.previousSelected)
+      $rows.slice(i_min, i_max+1).addClass("selected");
+    else
+      $rows.slice(i_min, i_max+1).removeClass("selected");
+  }
+  this.previousRow = $tr;
 }
 
 /**
@@ -221,7 +239,7 @@ function addActivityToTableBody($tableBody, activity) {
   $tr.data("data", data);
   $tr.attr("id", activity.id);
   // select/deselect row on click
-  $tr.click(() => clickRow($tr));
+  $tr.click((e) => clickRow(e, $tr));
   
   // set row entries
   $tr
