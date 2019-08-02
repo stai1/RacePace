@@ -80,6 +80,8 @@ $(function () {
   $("#calculate-deselect").click(()=>deselectAll("calculateList"));
   
   getCoef();
+  
+  $(".stats").css({display: "block"});
   }
 );
 

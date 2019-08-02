@@ -38,6 +38,7 @@ h1 {margin: 0px;}
   top: 0;
 }
 .stats {
+  display: none;
   white-space: nowrap;
   position:absolute;
   right: 0;
