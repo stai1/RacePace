@@ -170,6 +170,7 @@ function deselectAll(tableID) {
 }
 
 function clickRow(event, $tr) {
+  // range begin
   if(!event.shiftKey || this.previousRow == undefined || this.previousRow.parent()[0] != $tr.parent()[0]) {
     if(($tr).hasClass("selected")) {
       $tr.removeClass("selected");
@@ -180,6 +181,7 @@ function clickRow(event, $tr) {
       this.previousSelected = true;
     }
   }
+  // range end
   else {
     let $rows = $tr.parent().find("tr");
     let i_previous = $rows.index(this.previousRow);
