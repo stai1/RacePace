@@ -5,6 +5,7 @@ const CONVERSIONS = {m:1, km: 1000, mi:1609.344};
 var url = "https://www.strava.com/api/v3/athlete/activities";
 var unit;
 var coef = pwrReg([],[]);
+var canvasControl;
 
 // initialize stuff
 $(function () {
@@ -79,9 +80,13 @@ $(function () {
   $("#calculate-select").click(()=>selectAll("calculateList"));
   $("#calculate-deselect").click(()=>deselectAll("calculateList"));
   
+  canvasControl = new CanvasControl($("#plot"), coef);
+  canvasControl.resizeCanvas();
   getCoef();
   
   $(".stats").css({display: "block"});
+  
+  $(window).resize(()=>canvasControl.resizeCanvas());
   }
 );
 
@@ -221,6 +226,8 @@ function getCoef() {
   $(".a-coef").attr("title",coef.a).text(coef.a.toFixed(3));
   $(".b-coef").attr("title",coef.b).text(coef.b.toFixed(4));
   $(".r-coef").attr("title",coef.r*coef.r).text((coef.r*coef.r).toFixed(4));
+  canvasControl.setCoef(coef);
+  canvasControl.redraw();
 }
 
 /**
