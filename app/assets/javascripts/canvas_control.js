@@ -35,6 +35,7 @@ class CanvasControl {
     this.coef = coef;
   }
   drawPowerFunction() {
+    this.ctx.strokeStyle = "#FF0000";
     this.ctx.beginPath();
     let y = this.coef.a * Math.pow(this.xBegin, this.coef.b);
     this.ctx.moveTo(0, this.yCanvasFromY(y));
