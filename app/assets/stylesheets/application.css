@@ -23,13 +23,12 @@ h1 {margin: 0px;}
 }
 #top_content {
   position: relative;
-  min-height: 100px;
-  flex:0.4;
+  height: 40%;
 }
 #bottom_content {
   display: flex;
   flex-flow: column;
-  flex: 0.6;
+  height: 60%;
 }
 
 .banner {
